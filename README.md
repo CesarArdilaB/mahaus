@@ -1,33 +1,136 @@
-# Ignition
+# MAHAUS - Strategic Creative Agency
 
-This is a template repository for building a web application with a backend server using Vite and React.
+MAHAUS is a strategic creative agency that acts as a catalyst for ambitious, aspirational brands. We combine disruptive creativity, agile execution, and real-world professional experience to transform brand potential into measurable revenue and sustainable global impact.
 
-## Structure
+## About MAHAUS
 
-The project is organized into `apps`, `shared`, and `packages` directories to promote modularity and reusability, while maintaining a clear and unidirectional dependency flow.
+### Mission
+To be the strategic catalyst for ambitious, aspirational brands, translating their potential into measurable revenue and sustainable global impact. We achieve this by blending disruptive creativity and agile execution with real professional experience, forging genuine, engaged communities for enduring growth.
 
-- **`apps/`**: Contains the primary applications.
-    - `web/`: The React frontend application, powered by Vite.
-    - `server/`: The Node.js backend server.
-- **`shared/`**: Houses code shared across different parts of the application, particularly between the frontend and backend.
-    - `lib/`: A collection of shared library code, common utilities, and helper functions.
-    - `components/`: Reusable React components that can be used across different frontend parts or shared with design systems.
-    - `api/`: Defines the shared API using tRPC. This module is responsible for composing the individual tRPC procedures exposed by various feature packages into a single, comprehensive API. This enables type-safe communication between frontend and backend.
-    - `api-helpers/`: Contains base tRPC procedures, middleware, and configuration necessary for setting up the API layer. Feature packages extend these helpers to define their specific API endpoints.
-    - `context/`: Manages common context and I/O dependencies, such as database connections and authentication services, providing essential utilities to other modules.
-    - `database/`: Sets up the database, including connection configurations and SQL schema definitions.
-    - `auth/`: Contains authentication-related logic, such session handling, which can be shared between the frontend and backend.
-- **`packages/`**: Dedicated to encapsulating specific business logic or features as self-contained modules. These packages define their own tRPC procedures by extending from `shared/api-helpers` and interact with core services (like context and database).
-    - `platform_feature_a/`: A package containing specific business logic or features for "Feature A," including its tRPC procedures.
-    - `platform_feature_b/`: Another package containing business logic or features for "Feature B," including its tRPC procedures.
-    - `feature_a_schema/`: Database schema definitions specific to "Feature A."
-    - `feature_b_schema/`: Database schema definitions specific to "Feature B."
+### Vision
+To become the globally recognized growth partner that defines the next generation of brand development, known for pioneering high-impact strategies that consistently elevate brands from local intention to global influence, all while setting the standard for quality and competitive value.
 
-## Dependencies
+### Core Values
 
-The following outlines the dependency relationships between the different modules and packages within the project, ensuring no circular dependencies exist. The `shared/api` module acts as an orchestrator, importing and combining procedures from the feature packages, while `shared/api-helpers` provides the foundational building blocks for feature APIs.
+| Value | Description |
+|-------|-------------|
+| **Catalytic Agility** | We move with speed and precision, acting as the dynamic force that turns ideas into outcomes quickly and effectively. |
+| **Real-World Experience** | Our strategies are grounded in proven, professional insights that transform complex challenges into clear, actionable growth paths. |
+| **Disruptive Creativity** | We challenge the status quo, delivering innovative ideas and content that cut through the noise. |
+| **Quality Over Cost** | We believe true value exceeds the price tag. We deliver the highest standard of strategy and execution. |
+| **Community Focus** | We guide brands not just to acquire customers, but to cultivate genuine, lasting communities. |
 
-The `shared/context` module is responsible for managing common context and I/O dependencies, such as database connections and authentication services, which are then utilized by the feature packages. The `Context` instance is passed as dependency to any required function. **We don't use global variables, state or singletons, ensuring a clean and testable architecture**.
+### Brand Promise
+> "We promise to be your nimble, expert partner, transforming your brand's potential into tangible revenue and a powerful, enduring community."
+
+---
+
+## Services
+
+### I. Growth & Conversion
+Services designed to drive traffic, engagement, conversion, and retention.
+
+- **Growth & Automations**: Email, SMS, WhatsApp marketing and sales automation
+- **Strategic Digital Advertising**: Meta (Facebook/Instagram), Google Ads, TikTok
+- **Strategy, Content & Social Management**: Digital strategy, content planning, social media management, analytics
+
+### II. Digital Infrastructure & Products
+Platforms and tools needed to operate, sell, and scale.
+
+- **Digital Product Development**: Websites, Landing Pages, E-commerce, Mobile Apps
+- **Domain Administration & Technical Measurement**: Analytics implementation and monitoring
+
+### III. Brand Identity & Content
+Ensuring coherent, attractive, and professional communication.
+
+- **Brand Creation**: Logo, Brand Book, Typography, Color Palette
+- **Content Creation**: Video, Photography, Graphic Design, Blogs
+
+---
+
+## Brand Guidelines
+
+### Color Palette
+
+| Color | HEX | RGB | Usage |
+|-------|-----|-----|-------|
+| Blue | `#3170b7` | 49, 112, 183 | Accent color |
+| Yellow | `#eba42b` | 235, 164, 43 | Primary accent |
+| Red | `#e54129` | 229, 65, 41 | Call to action, highlights |
+| Cream | `#e9d5b6` | 233, 213, 182 | Light backgrounds |
+| Dark Navy | `#151921` | 21, 25, 33 | Primary dark, text |
+| Gray | `#d1d1d1` | 209, 209, 209 | Neutral, borders |
+
+### Typography
+
+| Type | Font | Usage |
+|------|------|-------|
+| Primary - Titles | **Anybody Bold** | Headlines, main titles |
+| Primary - Subtitles | **Anybody Regular** | Subtitles, secondary headings |
+| Secondary - Body | **Geomanist Regular** | Body text, paragraphs |
+| Decorative | **Bauhaus** | Special accents, decorative elements |
+
+---
+
+## Tech Stack
+
+- **Runtime**: Node.js v22.x
+- **Package Manager**: pnpm with workspaces
+- **Web**: React 19, Vite, TailwindCSS 4, React Router 7
+- **Backend**: Hono, tRPC 11
+- **Database**: PostgreSQL with Drizzle ORM
+- **Auth**: Better Auth
+- **Linting/Formatting**: Biome
+
+## Project Structure
+
+```
+mahaus/
+├── apps/
+│   ├── web/          # React frontend (Vite)
+│   └── server/       # Node.js backend (Hono + tRPC)
+├── shared/           # Cross-cutting shared code
+│   ├── api/          # tRPC router composition
+│   ├── api-helpers/  # Base tRPC procedures and middleware
+│   ├── auth/         # Authentication logic
+│   ├── components/   # Shared React components
+│   ├── context/      # Dependency injection context
+│   ├── database/     # Drizzle schema and connection
+│   └── lib/          # Utility functions
+├── packages/         # Business logic features
+└── docs/             # Documentation
+```
+
+## Development
+
+### Quick Start
+
+```bash
+# Install dependencies
+pnpm install
+
+# Start development server
+pnpm dev
+
+# Database operations
+pnpm db:push          # Push schema changes
+
+# Code quality
+pnpm format           # Format code with Biome
+pnpm lint             # Type-check with TypeScript
+pnpm test             # Run tests
+```
+
+### Architecture Principles
+
+1. **No Global State** - All dependencies passed through Context
+2. **Unidirectional Dependencies** - apps -> packages -> shared (no circular deps)
+3. **Type-Safe APIs** - tRPC for end-to-end type safety
+4. **Modular Design** - Features encapsulated in packages
+
+---
+
+## Dependencies Diagram
 
 ```mermaid
 graph LR
@@ -47,10 +150,7 @@ graph LR
     end
 
     subgraph Packages
-        feature_a(packages/platform_feature_a)
-        feature_b(packages/platform_feature_b)
-        feature_a_schema(packages/feature_a_schema)
-        feature_b_schema(packages/feature_b_schema)
+        features(packages/*)
     end
 
     web --> lib
@@ -68,8 +168,7 @@ graph LR
 
     api --> api_helpers
     api --> context
-    api --> feature_a
-    api --> feature_b
+    api --> features
 
     auth --> database
 
@@ -77,106 +176,14 @@ graph LR
     context --> auth
 
     database --> lib
-    database --> feature_a_schema
-    database --> feature_b_schema
 
-    feature_a --> context
-    feature_a --> feature_a_schema
-    feature_a --> api_helpers
-    feature_a --> lib
-
-    feature_b --> context
-    feature_b --> feature_b_schema
-    feature_b --> api_helpers
-    feature_b --> lib
+    features --> context
+    features --> api_helpers
+    features --> lib
 ```
 
-## How to develop
+---
 
-Packages that are part of the setup and not business logic itself are located in the `shared` directory.
-Packages that contain business logic are located in the `packages` directory.
+## License
 
-### Adding features
-
-To add a feature, you must first create a new package under the `packages` directory. This package should encapsulate the business logic for that feature, including its tRPC procedures, components, classes and functions.
-
-You can create a tRPC router. To do this, you need to add the dependency `@shared/api-helpers` and create a router.
-
-```ts
-// packages/my_feature/src/index.ts
-
-import { protectedProcedure, router } from '@shared/api-helpers'
-import { schema } from '@shared/database'
-import z from 'zod'
-
-export const posts = router({
-    create: protectedProcedure
-        .input(
-            z.object({
-                title: z.string().min(1, 'Title is required'),
-                content: z.string().min(1, 'Content is required'),
-            })
-        )
-        .mutation(async ({ ctx, input }) => {
-            await ctx.db.insert(schema.posts).values({
-                title: input.title,
-                content: input.content,
-                authorId: ctx.session.user.id,
-            })
-        }),
-})
-```
-
-Then you must import this router on the `shared/api` module, which is responsible for composing the individual tRPC procedures exposed by various feature packages into a single, comprehensive API.
-
-```ts
-// shared/api/src/server/root.ts
-import { posts } from '@packages/posts'
-
-export const appRouter = router({
-    posts,
-})
-```
-
-Database schemas must be added to the `shared/database` module. Schemas can be imported from other modules but they must not generate circular dependencies.
-
-- `@packages/my_feature -> @shared/database -> @shared/my_feature_schema` -> OK
-- `@packages/my_feature -> @shared/database -> @shared/my_feature` -> BAD
-
-### Rules
-
-**Exports**
-
-- Packages can export backend functions, tRPC routers, classes, types, helpers, and components.
-- Frontend code must be exported independently from backend code using `package.json` `exports` field.
-  This is necessary to avoid exposing backend code to the frontend end and potentially causing issues at dev/build time.
-- If exporting backend and client code, exports must use any of the names `client`, `services`, `server`, or `routers`.
-- If using named export for client or backend, root export must not be used.
-- If the code is client, backend only or shared between both, it can be exported as root export.
-
-**Global**
-
-- Global variables, state or singletons are not allowed.
-- Use of database or any external service (redis, ai, auth provider, etc.) must be passed as a dependency to the functions that need it.
-- Any added external service must be added to the `shared/context` module, which is responsible for managing common context and I/O dependencies.
-
-## Considerations
-
-### Names and tsconfig
-
-All packages (under `shared`, `apps`, and `packages`) must be added as reference to `tsconfig.json` in the root of the project, so that TypeScript can resolve them correctly. For naming them we use the following convention:
-
-- `@shared/<package_name>` for shared packages.
-- `@apps/<app_name>` for applications.
-- `@packages/<package_name>` for business logic packages.
-
-If some package is meant to be published to npm, it should be placed under `packages` and follow can have any name.
-
-### Dependencies
-
-**Circular dependencies are not allowed.** The dependency flow should be unidirectional, meaning that a package can depend on another package, but not the other way around.
-
-All packages that depends on other packages must have the dependencies correctly declared in their `package.json` files.
-Dependencies from packages of the monorepo are declared as `workspace:*` in the `package.json` files.
-
-If a common external dependency is used across multiple packages, for example `zod`, `react` or `drizzle-orm`, it should be declared as peer dependency in the `package.json` file of the package that uses it.
+Private - MAHAUS 2024
