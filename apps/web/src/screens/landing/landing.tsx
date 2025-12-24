@@ -8,7 +8,7 @@ import { CONTACT_EMAIL, LOCATION, SOCIAL_LINKS } from './constants'
 // Sections that have light backgrounds (cream)
 const LIGHT_SECTIONS = ['manifesto', 'values']
 // Sections that have colorful backgrounds (contact section)
-const COLORFUL_SECTIONS = ['contact']
+const COLORFUL_SECTIONS = ['contact', 'services']
 
 export function LandingPage() {
     return (
@@ -185,7 +185,6 @@ function HeroSection() {
                     {/* Left content */}
                     <div className="lg:col-span-7 space-y-8">
                         {/* Overline with geometric accent */}
-                        {/* Overline with geometric accent */}
                         <div className="flex items-center gap-4">
                             <div className="flex gap-1">
                                 <div className="w-3 h-3 bg-mahaus-red rounded-full" />
@@ -279,7 +278,6 @@ function HeroSection() {
         </section>
     )
 }
-
 
 function ManifestoSection() {
     return (
@@ -389,16 +387,16 @@ function ServicesSection() {
         <section
             id="services"
             data-section="services"
-            className="relative py-32 bg-mahaus-navy scroll-mt-20"
+            className="relative py-32 bg-mahaus-red scroll-mt-20"
         >
             <div className="max-w-7xl mx-auto px-6 lg:px-8">
                 {/* Section header */}
                 <div className="flex items-end justify-between mb-20">
                     <div>
                         <div className="flex items-center gap-4 mb-4">
-                            <div className="w-8 h-8 bg-mahaus-red" />
+                            <div className="w-8 h-8 bg-mahaus-navy" />
                             <div className="w-8 h-8 bg-mahaus-yellow rounded-full" />
-                            <div className="w-0 h-0 border-l-[16px] border-r-[16px] border-b-[28px] border-l-transparent border-r-transparent border-b-mahaus-blue" />
+                            <div className="w-8 h-8 bg-mahaus-blue" />
                         </div>
                         <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-mahaus-cream">
                             What We Do
@@ -444,7 +442,7 @@ function ServiceCard({
             <div
                 className={`lg:col-span-1 ${isEven ? 'lg:order-1' : 'lg:order-3'}`}
             >
-                <span className={`text-8xl font-bold text-${service.color}/20`}>
+                <span className={`text-8xl font-bold text-mahaus-navy/10 group-hover:text-mahaus-cream/20 transition-colors`}>
                     {service.id}
                 </span>
             </div>
@@ -453,23 +451,23 @@ function ServiceCard({
             <div
                 className={`lg:col-span-7 ${isEven ? 'lg:order-2' : 'lg:order-2'}`}
             >
-                <div className="relative h-full bg-mahaus-navy border border-mahaus-cream/10 p-8 lg:p-12 group-hover:border-mahaus-cream/30 transition-all duration-500">
+                <div className="relative h-full bg-mahaus-navy/40 backdrop-blur-sm border border-mahaus-cream/10 p-8 lg:p-12 group-hover:border-mahaus-cream/30 transition-all duration-500">
                     {/* Shape accent */}
                     <div
                         className={`absolute top-8 ${isEven ? 'right-8' : 'left-8'}`}
                     >
                         {service.shape === 'circle' && (
                             <div
-                                className={`w-12 h-12 rounded-full border-4 border-${service.color}`}
+                                className={`w-12 h-12 rounded-full border-4 border-mahaus-yellow`}
                             />
                         )}
                         {service.shape === 'square' && (
                             <div
-                                className={`w-12 h-12 border-4 border-${service.color} rotate-12`}
+                                className={`w-12 h-12 border-4 border-mahaus-blue rotate-12`}
                             />
                         )}
                         {service.shape === 'triangle' && (
-                            <div className="w-0 h-0 border-l-[24px] border-r-[24px] border-b-[42px] border-l-transparent border-r-transparent border-b-mahaus-yellow" />
+                            <div className="w-0 h-0 border-l-[24px] border-r-[24px] border-b-[42px] border-l-transparent border-r-transparent border-b-mahaus-cream" />
                         )}
                     </div>
 
@@ -481,13 +479,13 @@ function ServiceCard({
                                 {service.title}
                             </h3>
                             <h3
-                                className={`text-3xl lg:text-4xl font-bold text-${service.color}`}
+                                className={`text-3xl lg:text-4xl font-bold text-mahaus-yellow`}
                             >
                                 {service.subtitle}
                             </h3>
                         </div>
 
-                        <p className="text-mahaus-gray max-w-md">
+                        <p className="text-mahaus-cream/70 max-w-md">
                             {service.description}
                         </p>
 
@@ -495,7 +493,7 @@ function ServiceCard({
                             {service.items.map((item) => (
                                 <li
                                     key={item}
-                                    className="px-4 py-2 bg-mahaus-cream/5 text-mahaus-cream/70 text-sm"
+                                    className="px-4 py-2 bg-mahaus-cream/10 text-mahaus-cream/80 text-sm font-medium border border-mahaus-cream/5"
                                 >
                                     {item}
                                 </li>
@@ -510,23 +508,23 @@ function ServiceCard({
                 className={`lg:col-span-4 ${isEven ? 'lg:order-3' : 'lg:order-1'} hidden lg:block`}
             >
                 <div
-                    className={`h-full bg-${service.color}/10 relative overflow-hidden`}
+                    className={`h-full bg-mahaus-navy/20 relative overflow-hidden group-hover:bg-mahaus-navy/30 transition-colors duration-500`}
                 >
                     <div className={`absolute inset-0 bg-${service.color}/5`} />
                     {/* Geometric pattern */}
                     <div className="absolute inset-0 flex items-center justify-center">
                         {service.shape === 'circle' && (
                             <div
-                                className={`w-48 h-48 rounded-full bg-${service.color}/20 group-hover:scale-110 transition-transform duration-500`}
+                                className={`w-48 h-48 rounded-full bg-mahaus-yellow/20 group-hover:scale-110 transition-transform duration-500`}
                             />
                         )}
                         {service.shape === 'square' && (
                             <div
-                                className={`w-48 h-48 bg-${service.color}/20 rotate-45 group-hover:rotate-[60deg] transition-transform duration-500`}
+                                className={`w-48 h-48 bg-mahaus-blue/20 rotate-45 group-hover:rotate-[60deg] transition-transform duration-500`}
                             />
                         )}
                         {service.shape === 'triangle' && (
-                            <div className="w-0 h-0 border-l-[96px] border-r-[96px] border-b-[166px] border-l-transparent border-r-transparent border-b-mahaus-yellow/20 group-hover:scale-110 transition-transform duration-500" />
+                            <div className="w-0 h-0 border-l-[96px] border-r-[96px] border-b-[166px] border-l-transparent border-r-transparent border-b-mahaus-cream/20 group-hover:scale-110 transition-transform duration-500" />
                         )}
                     </div>
                 </div>
@@ -550,11 +548,16 @@ function ValuesSection() {
             className="relative py-32 bg-mahaus-cream overflow-hidden"
         >
             {/* Background geometric elements */}
-            <div className="absolute top-20 left-20 w-64 h-64 border-2 border-mahaus-navy/10 rounded-full" />
+            <div className="absolute top-20 left-20 w-64 h-64 border-2 border-mahaus-navy/5 rounded-full" />
             <div className="absolute bottom-20 right-20 w-48 h-48 bg-mahaus-navy/5 rotate-45" />
 
             <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
                 <div className="text-center mb-16">
+                    <div className="flex items-center justify-center gap-4 mb-4">
+                        <div className="w-8 h-8 bg-mahaus-red rounded-full" />
+                        <div className="w-8 h-8 bg-mahaus-yellow" />
+                        <div className="w-0 h-0 border-l-[16px] border-r-[16px] border-b-[28px] border-l-transparent border-r-transparent border-b-mahaus-blue" />
+                    </div>
                     <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-mahaus-navy mb-6">
                         Core Values
                     </h2>
@@ -565,12 +568,14 @@ function ValuesSection() {
                     {values.map((value, index) => (
                         <div key={value.word} className="group relative">
                             <span
-                                className={`text-4xl sm:text-5xl lg:text-7xl font-bold text-${value.color} opacity-80 hover:opacity-100 transition-opacity cursor-default`}
+                                className={`text-4xl sm:text-5xl lg:text-7xl font-bold text-mahaus-navy opacity-40 hover:opacity-100 transition-opacity cursor-default`}
                             >
                                 {value.word}
                             </span>
                             {index < values.length - 1 && (
-                                <span className="text-4xl sm:text-5xl lg:text-7xl font-bold text-mahaus-navy/20 mx-2 hidden sm:inline">
+                                <span
+                                    className={`text-4xl sm:text-5xl lg:text-7xl font-bold text-${value.color} mx-2 hidden sm:inline`}
+                                >
                                     /
                                 </span>
                             )}
@@ -602,10 +607,9 @@ function ProcessSection() {
                     {/* Left - Title */}
                     <div className="lg:sticky lg:top-32 lg:h-fit">
                         <div className="flex items-center gap-4 mb-6">
-                            <div className="w-16 h-1 bg-mahaus-yellow" />
-                            <span className="text-mahaus-cream/40 uppercase tracking-widest text-sm">
-                                Process
-                            </span>
+                            <div className="w-8 h-8 bg-mahaus-red" />
+                            <div className="w-8 h-8 bg-mahaus-yellow rounded-full" />
+                            <div className="w-0 h-0 border-l-[16px] border-r-[16px] border-b-[28px] border-l-transparent border-r-transparent border-b-mahaus-blue" />
                         </div>
                         <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-mahaus-cream mb-6">
                             How We{' '}
@@ -628,7 +632,7 @@ function ProcessSection() {
                                 <div className="absolute left-0 top-8 w-4 h-4 -translate-x-[9px] bg-mahaus-navy border-2 border-mahaus-cream/20 group-hover:border-mahaus-yellow group-hover:bg-mahaus-yellow transition-all" />
 
                                 <div className="flex items-start gap-6">
-                                    <span className="text-5xl font-bold text-mahaus-cream/10 group-hover:text-mahaus-yellow/30 transition-colors">
+                                    <span className="text-5xl font-bold text-mahaus-cream/10 group-hover:text-mahaus-yellow/20 transition-colors">
                                         {step.num}
                                     </span>
                                     <div>
@@ -660,7 +664,7 @@ function ContactSection() {
             <div className="absolute inset-0">
                 <div className="absolute inset-0 bg-mahaus-red" />
                 <div className="absolute top-0 right-0 w-1/2 h-full bg-mahaus-yellow" />
-                <div className="absolute bottom-0 left-1/4 w-1/2 h-1/2 bg-mahaus-blue" />
+                <div className="absolute bottom-0 left-1/4 w-1/4 h-1/2 bg-mahaus-blue" />
             </div>
 
             {/* Content */}
@@ -684,7 +688,10 @@ function ContactSection() {
                                 className="bg-mahaus-yellow text-mahaus-navy hover:bg-mahaus-cream px-8 h-14 text-base font-bold"
                                 asChild
                             >
-                                <a href={`mailto:${CONTACT_EMAIL}`}>
+                                <a
+                                    href={`mailto:${CONTACT_EMAIL}`}
+                                    className="flex items-center justify-center whitespace-nowrap"
+                                >
                                     <Mail className="mr-2 w-5 h-5" />
                                     {CONTACT_EMAIL}
                                 </a>
