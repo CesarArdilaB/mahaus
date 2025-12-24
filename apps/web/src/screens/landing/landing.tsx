@@ -1,6 +1,14 @@
 import { Button } from '@shared/components'
 import { ArrowRight, Mail } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import logoForDarkBg from '../../assets/images/LOGO_BG_BLACK.png'
+import logoForLightBg from '../../assets/images/LOGO_BG_COLOR.png'
+import { CONTACT_EMAIL, LOCATION, SOCIAL_LINKS } from './constants'
+
+// Sections that have light backgrounds (cream)
+const LIGHT_SECTIONS = ['manifesto', 'values']
+// Sections that have colorful backgrounds (contact section)
+const COLORFUL_SECTIONS = ['contact']
 
 export function LandingPage() {
     return (
@@ -19,6 +27,7 @@ export function LandingPage() {
 
 function Navbar() {
     const [scrolled, setScrolled] = useState(false)
+    const [isLightBg, setIsLightBg] = useState(false)
 
     useEffect(() => {
         const handleScroll = () => setScrolled(window.scrollY > 50)
@@ -26,22 +35,63 @@ function Navbar() {
         return () => window.removeEventListener('scroll', handleScroll)
     }, [])
 
+    // Intersection Observer to detect which section is visible at the top
+    useEffect(() => {
+        const sections = document.querySelectorAll('section[data-section]')
+        if (sections.length === 0) return
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                for (const entry of entries) {
+                    if (entry.isIntersecting) {
+                        const sectionId =
+                            entry.target.getAttribute('data-section')
+                        const isLight = sectionId
+                            ? LIGHT_SECTIONS.includes(sectionId) ||
+                              COLORFUL_SECTIONS.includes(sectionId)
+                            : false
+                        setIsLightBg(isLight)
+                    }
+                }
+            },
+            {
+                rootMargin: '-80px 0px -80% 0px', // Check at the navbar position
+                threshold: 0,
+            },
+        )
+
+        for (const section of sections) {
+            observer.observe(section)
+        }
+
+        return () => observer.disconnect()
+    }, [])
+
+    // Dynamic text colors based on background
+    const textColor = isLightBg ? 'text-mahaus-navy' : 'text-mahaus-cream'
+    const textColorMuted = isLightBg
+        ? 'text-mahaus-navy/90'
+        : 'text-mahaus-cream/80'
+    const bgColor = scrolled
+        ? isLightBg
+            ? 'bg-mahaus-cream/95 backdrop-blur-md shadow-sm'
+            : 'bg-mahaus-navy/95 backdrop-blur-md shadow-lg'
+        : isLightBg
+            ? 'bg-mahaus-cream/40 backdrop-blur-sm'
+            : 'bg-mahaus-navy/20 backdrop-blur-sm'
+
     return (
         <nav
-            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-                scrolled ? 'bg-mahaus-navy/95 backdrop-blur-md' : 'bg-transparent'
-            }`}
+            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${bgColor}`}
         >
             <div className="max-w-7xl mx-auto px-6 lg:px-8">
                 <div className="flex items-center justify-between h-20">
                     <a href="/" className="group flex items-center gap-3">
-                        <div className="relative w-10 h-10">
-                            <div className="absolute inset-0 bg-mahaus-red rounded-full transition-transform group-hover:scale-110" />
-                            <div className="absolute inset-2 bg-mahaus-yellow rounded-full" />
-                        </div>
-                        <span className="text-mahaus-cream font-bold text-xl tracking-tight">
-                            MAHAUS
-                        </span>
+                        <img
+                            src={isLightBg ? logoForLightBg : logoForDarkBg}
+                            alt="MAHAUS"
+                            className="h-12 w-auto transition-all duration-300"
+                        />
                     </a>
 
                     <div className="hidden md:flex items-center gap-1">
@@ -49,7 +99,7 @@ function Navbar() {
                             <a
                                 key={item}
                                 href={`#${item.toLowerCase()}`}
-                                className="px-4 py-2 text-mahaus-cream/70 hover:text-mahaus-cream transition-colors text-sm uppercase tracking-widest"
+                                className={`px-4 py-2 ${textColorMuted} hover:${textColor} transition-colors text-sm uppercase tracking-widest`}
                             >
                                 {item}
                             </a>
@@ -83,23 +133,32 @@ function HeroSection() {
     }, [])
 
     return (
-        <section className="relative min-h-screen flex items-center overflow-hidden">
+        <section
+            data-section="hero"
+            className="relative min-h-screen flex items-center overflow-hidden"
+        >
             {/* Geometric Background Elements */}
             <div className="absolute inset-0 overflow-hidden">
                 {/* Large circle - top right */}
                 <div
                     className="absolute -top-32 -right-32 w-[600px] h-[600px] rounded-full border-[3px] border-mahaus-blue/30"
-                    style={{ transform: `translate(${mousePos.x * 0.5}px, ${mousePos.y * 0.5}px)` }}
+                    style={{
+                        transform: `translate(${mousePos.x * 0.5}px, ${mousePos.y * 0.5}px)`,
+                    }}
                 />
                 {/* Filled circle */}
                 <div
                     className="absolute top-1/4 right-1/4 w-48 h-48 rounded-full bg-mahaus-red/20"
-                    style={{ transform: `translate(${mousePos.x * -0.3}px, ${mousePos.y * -0.3}px)` }}
+                    style={{
+                        transform: `translate(${mousePos.x * -0.3}px, ${mousePos.y * -0.3}px)`,
+                    }}
                 />
                 {/* Yellow accent */}
                 <div
                     className="absolute bottom-1/3 right-1/3 w-32 h-32 bg-mahaus-yellow/30 rotate-45"
-                    style={{ transform: `rotate(45deg) translate(${mousePos.x * 0.8}px, ${mousePos.y * 0.8}px)` }}
+                    style={{
+                        transform: `rotate(45deg) translate(${mousePos.x * 0.8}px, ${mousePos.y * 0.8}px)`,
+                    }}
                 />
                 {/* Blue rectangle */}
                 <div
@@ -108,13 +167,16 @@ function HeroSection() {
                 />
                 {/* Grid lines */}
                 <div className="absolute inset-0 opacity-5">
-                    <div className="h-full w-full" style={{
-                        backgroundImage: `
+                    <div
+                        className="h-full w-full"
+                        style={{
+                            backgroundImage: `
                             linear-gradient(to right, #e9d5b6 1px, transparent 1px),
                             linear-gradient(to bottom, #e9d5b6 1px, transparent 1px)
                         `,
-                        backgroundSize: '80px 80px'
-                    }} />
+                            backgroundSize: '80px 80px',
+                        }}
+                    />
                 </div>
             </div>
 
@@ -122,6 +184,7 @@ function HeroSection() {
                 <div className="grid lg:grid-cols-12 gap-8 items-center">
                     {/* Left content */}
                     <div className="lg:col-span-7 space-y-8">
+                        {/* Overline with geometric accent */}
                         {/* Overline with geometric accent */}
                         <div className="flex items-center gap-4">
                             <div className="flex gap-1">
@@ -140,12 +203,17 @@ function HeroSection() {
                                 We Build
                             </h1>
                             <h1 className="text-5xl sm:text-7xl lg:text-8xl font-bold leading-[0.9] tracking-tight">
-                                <span className="text-mahaus-yellow">Brands</span>
+                                <span className="text-mahaus-yellow">
+                                    Brands
+                                </span>
                                 <span className="text-mahaus-cream"> That</span>
                             </h1>
                             <h1 className="text-5xl sm:text-7xl lg:text-8xl font-bold leading-[0.9] tracking-tight">
                                 <span className="text-mahaus-red">Move</span>
-                                <span className="text-mahaus-cream"> People</span>
+                                <span className="text-mahaus-cream">
+                                    {' '}
+                                    People
+                                </span>
                             </h1>
                         </div>
 
@@ -154,7 +222,8 @@ function HeroSection() {
                             <div className="w-1 h-20 bg-gradient-to-b from-mahaus-yellow to-mahaus-red flex-shrink-0 mt-1" />
                             <p className="text-mahaus-gray text-lg leading-relaxed">
                                 Disruptive creativity meets strategic execution.
-                                We transform ambitious brands into global movements.
+                                We transform ambitious brands into global
+                                movements.
                             </p>
                         </div>
 
@@ -162,12 +231,12 @@ function HeroSection() {
                         <div className="flex items-center gap-6 pt-4">
                             <Button
                                 size="lg"
-                                className="bg-mahaus-red hover:bg-mahaus-yellow hover:text-mahaus-navy text-white px-8 h-14 text-base transition-all duration-300 group"
+                                className="bg-mahaus-red hover:bg-mahaus-yellow hover:text-mahaus-navy text-white px-8 h-14 text-base transition-all duration-300 group whitespace-nowrap"
                                 asChild
                             >
-                                <a href="#contact">
+                                <a href="#contact" className="flex items-center justify-center gap-2">
                                     Start Your Project
-                                    <ArrowRight className="ml-2 w-5 h-5 transition-transform group-hover:translate-x-1" />
+                                    <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
                                 </a>
                             </Button>
                             <a
@@ -179,9 +248,25 @@ function HeroSection() {
                         </div>
                     </div>
 
-                    {/* Right - Geometric composition */}
-                    <div className="lg:col-span-5 relative h-[500px] hidden lg:block">
-                        <GeometricHeroArt mousePos={mousePos} />
+                    {/* Right - Logo with dynamic effect */}
+                    <div className="lg:col-span-5 relative h-[500px] hidden lg:flex items-center justify-center">
+                        <div
+                            className="relative w-full max-w-md transition-transform duration-300 ease-out"
+                            style={{
+                                transform: `translate(${mousePos.x * 0.5}px, ${mousePos.y * 0.5}px)`,
+                            }}
+                        >
+                            <img
+                                src={logoForDarkBg}
+                                alt="MAHAUS"
+                                className="w-full h-auto drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
+                                style={{
+                                    transform: `perspective(1000px) rotateX(${-mousePos.y * 0.5}deg) rotateY(${mousePos.x * 0.5}deg)`,
+                                }}
+                            />
+                            {/* Decorative glow background */}
+                            <div className="absolute -inset-20 bg-mahaus-blue/10 blur-[100px] -z-10 rounded-full" />
+                        </div>
                     </div>
                 </div>
             </div>
@@ -195,84 +280,13 @@ function HeroSection() {
     )
 }
 
-function GeometricHeroArt({ mousePos }: { mousePos: { x: number; y: number } }) {
-    return (
-        <div className="absolute inset-0">
-            {/* Main 3D box shape inspired by logo */}
-            <svg viewBox="0 0 400 400" className="w-full h-full" style={{ transform: `translate(${mousePos.x * 0.2}px, ${mousePos.y * 0.2}px)` }}>
-                {/* Back face */}
-                <polygon
-                    points="100,80 320,80 320,280 100,280"
-                    fill="#e9d5b6"
-                    stroke="#151921"
-                    strokeWidth="3"
-                />
-                {/* Left face */}
-                <polygon
-                    points="50,130 100,80 100,280 50,330"
-                    fill="#eba42b"
-                    stroke="#151921"
-                    strokeWidth="3"
-                />
-                {/* Bottom face */}
-                <polygon
-                    points="50,330 100,280 320,280 270,330"
-                    fill="#3170b7"
-                    stroke="#151921"
-                    strokeWidth="3"
-                />
-                {/* MA text on left face */}
-                <text
-                    x="60"
-                    y="200"
-                    fontFamily="Anybody, Inter, system-ui"
-                    fontWeight="bold"
-                    fontSize="36"
-                    fill="#151921"
-                    transform="skewY(-20)"
-                >
-                    M
-                </text>
-                <text
-                    x="60"
-                    y="260"
-                    fontFamily="Anybody, Inter, system-ui"
-                    fontWeight="bold"
-                    fontSize="36"
-                    fill="#151921"
-                    transform="skewY(-20)"
-                >
-                    A
-                </text>
-                {/* HAUS text on front face */}
-                <text
-                    x="130"
-                    y="200"
-                    fontFamily="Anybody, Inter, system-ui"
-                    fontWeight="bold"
-                    fontSize="56"
-                    fill="#151921"
-                >
-                    HAUS
-                </text>
-            </svg>
-
-            {/* Floating geometric accents */}
-            <div
-                className="absolute top-0 right-0 w-16 h-16 border-4 border-mahaus-red"
-                style={{ transform: `translate(${mousePos.x * -0.5}px, ${mousePos.y * -0.5}px) rotate(15deg)` }}
-            />
-            <div
-                className="absolute bottom-20 right-20 w-8 h-8 bg-mahaus-yellow rounded-full"
-                style={{ transform: `translate(${mousePos.x * 0.8}px, ${mousePos.y * 0.8}px)` }}
-            />
-        </div>
-    )
-}
 
 function ManifestoSection() {
     return (
-        <section className="relative py-32 bg-mahaus-cream overflow-hidden">
+        <section
+            data-section="manifesto"
+            className="relative py-32 bg-mahaus-cream overflow-hidden"
+        >
             {/* Geometric accents */}
             <div className="absolute top-0 left-0 w-1/3 h-2 bg-mahaus-red" />
             <div className="absolute top-0 left-1/3 w-1/3 h-2 bg-mahaus-yellow" />
@@ -286,8 +300,11 @@ function ManifestoSection() {
                         <blockquote className="text-3xl sm:text-4xl lg:text-5xl font-bold text-mahaus-navy leading-tight">
                             &ldquo;Lasting influence is created where{' '}
                             <span className="text-mahaus-red">strategy</span>,{' '}
-                            <span className="text-mahaus-blue">creativity</span>, and{' '}
-                            <span className="text-mahaus-yellow inline-block bg-mahaus-navy px-2">people</span>{' '}
+                            <span className="text-mahaus-blue">creativity</span>
+                            , and{' '}
+                            <span className="text-mahaus-yellow inline-block bg-mahaus-navy px-2">
+                                people
+                            </span>{' '}
                             truly connect.&rdquo;
                         </blockquote>
                     </div>
@@ -297,9 +314,11 @@ function ManifestoSection() {
                         <div className="absolute -top-8 -right-8 w-32 h-32 border-4 border-mahaus-navy/10 rounded-full" />
                         <div className="relative z-10 space-y-6">
                             <p className="text-lg text-mahaus-navy/80 leading-relaxed">
-                                We are the <strong>catalyst</strong> for ambitious brands seeking global impact.
-                                We combine young energy with proven experience, transforming potential into
-                                measurable revenue and genuine communities.
+                                We are the <strong>catalyst</strong> for
+                                ambitious brands seeking global impact. We
+                                combine young energy with proven experience,
+                                transforming potential into measurable revenue
+                                and genuine communities.
                             </p>
                             <div className="flex items-center gap-4">
                                 <div className="w-12 h-12 bg-mahaus-navy flex items-center justify-center">
@@ -322,8 +341,14 @@ const services = [
         id: '01',
         title: 'Growth',
         subtitle: '& Conversion',
-        description: 'Drive traffic, engagement, and revenue through strategic digital campaigns.',
-        items: ['Marketing Automation', 'Paid Media Strategy', 'Social Management', 'Analytics & CRO'],
+        description:
+            'Drive traffic, engagement, and revenue through strategic digital campaigns.',
+        items: [
+            'Marketing Automation',
+            'Paid Media Strategy',
+            'Social Management',
+            'Analytics & CRO',
+        ],
         color: 'mahaus-red',
         shape: 'circle',
     },
@@ -331,8 +356,14 @@ const services = [
         id: '02',
         title: 'Digital',
         subtitle: 'Infrastructure',
-        description: 'Build the platforms and tools needed to scale your business globally.',
-        items: ['Websites & Apps', 'E-commerce', 'Landing Pages', 'Technical Setup'],
+        description:
+            'Build the platforms and tools needed to scale your business globally.',
+        items: [
+            'Websites & Apps',
+            'E-commerce',
+            'Landing Pages',
+            'Technical Setup',
+        ],
         color: 'mahaus-blue',
         shape: 'square',
     },
@@ -340,8 +371,14 @@ const services = [
         id: '03',
         title: 'Brand',
         subtitle: '& Content',
-        description: 'Create distinctive identities and compelling content that resonates.',
-        items: ['Brand Strategy', 'Visual Identity', 'Video & Photo', 'Content Creation'],
+        description:
+            'Create distinctive identities and compelling content that resonates.',
+        items: [
+            'Brand Strategy',
+            'Visual Identity',
+            'Video & Photo',
+            'Content Creation',
+        ],
         color: 'mahaus-yellow',
         shape: 'triangle',
     },
@@ -349,7 +386,11 @@ const services = [
 
 function ServicesSection() {
     return (
-        <section id="services" className="relative py-32 bg-mahaus-navy scroll-mt-20">
+        <section
+            id="services"
+            data-section="services"
+            className="relative py-32 bg-mahaus-navy scroll-mt-20"
+        >
             <div className="max-w-7xl mx-auto px-6 lg:px-8">
                 {/* Section header */}
                 <div className="flex items-end justify-between mb-20">
@@ -364,7 +405,9 @@ function ServicesSection() {
                         </h2>
                     </div>
                     <div className="hidden lg:block text-right">
-                        <span className="text-mahaus-cream/40 text-sm uppercase tracking-widest">Services</span>
+                        <span className="text-mahaus-cream/40 text-sm uppercase tracking-widest">
+                            Services
+                        </span>
                         <div className="w-32 h-px bg-mahaus-cream/20 mt-2" />
                     </div>
                 </div>
@@ -372,7 +415,11 @@ function ServicesSection() {
                 {/* Services grid - Bauhaus-inspired asymmetric layout */}
                 <div className="space-y-8">
                     {services.map((service, index) => (
-                        <ServiceCard key={service.id} service={service} index={index} />
+                        <ServiceCard
+                            key={service.id}
+                            service={service}
+                            index={index}
+                        />
                     ))}
                 </div>
             </div>
@@ -380,40 +427,62 @@ function ServicesSection() {
     )
 }
 
-function ServiceCard({ service, index }: { service: typeof services[0]; index: number }) {
+function ServiceCard({
+    service,
+    index,
+}: {
+    service: (typeof services)[0]
+    index: number
+}) {
     const isEven = index % 2 === 0
 
     return (
-        <div className={`group relative grid lg:grid-cols-12 gap-6 items-stretch ${isEven ? '' : 'lg:text-right'}`}>
+        <div
+            className={`group relative grid lg:grid-cols-12 gap-6 items-stretch ${isEven ? '' : 'lg:text-right'}`}
+        >
             {/* Number */}
-            <div className={`lg:col-span-1 ${isEven ? 'lg:order-1' : 'lg:order-3'}`}>
+            <div
+                className={`lg:col-span-1 ${isEven ? 'lg:order-1' : 'lg:order-3'}`}
+            >
                 <span className={`text-8xl font-bold text-${service.color}/20`}>
                     {service.id}
                 </span>
             </div>
 
             {/* Content card */}
-            <div className={`lg:col-span-7 ${isEven ? 'lg:order-2' : 'lg:order-2'}`}>
+            <div
+                className={`lg:col-span-7 ${isEven ? 'lg:order-2' : 'lg:order-2'}`}
+            >
                 <div className="relative h-full bg-mahaus-navy border border-mahaus-cream/10 p-8 lg:p-12 group-hover:border-mahaus-cream/30 transition-all duration-500">
                     {/* Shape accent */}
-                    <div className={`absolute top-8 ${isEven ? 'right-8' : 'left-8'}`}>
+                    <div
+                        className={`absolute top-8 ${isEven ? 'right-8' : 'left-8'}`}
+                    >
                         {service.shape === 'circle' && (
-                            <div className={`w-12 h-12 rounded-full border-4 border-${service.color}`} />
+                            <div
+                                className={`w-12 h-12 rounded-full border-4 border-${service.color}`}
+                            />
                         )}
                         {service.shape === 'square' && (
-                            <div className={`w-12 h-12 border-4 border-${service.color} rotate-12`} />
+                            <div
+                                className={`w-12 h-12 border-4 border-${service.color} rotate-12`}
+                            />
                         )}
                         {service.shape === 'triangle' && (
                             <div className="w-0 h-0 border-l-[24px] border-r-[24px] border-b-[42px] border-l-transparent border-r-transparent border-b-mahaus-yellow" />
                         )}
                     </div>
 
-                    <div className={`space-y-6 ${isEven ? '' : 'lg:text-left'}`}>
+                    <div
+                        className={`space-y-6 ${isEven ? '' : 'lg:text-left'}`}
+                    >
                         <div>
                             <h3 className="text-3xl lg:text-4xl font-bold text-mahaus-cream">
                                 {service.title}
                             </h3>
-                            <h3 className={`text-3xl lg:text-4xl font-bold text-${service.color}`}>
+                            <h3
+                                className={`text-3xl lg:text-4xl font-bold text-${service.color}`}
+                            >
                                 {service.subtitle}
                             </h3>
                         </div>
@@ -437,16 +506,24 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
             </div>
 
             {/* Visual block */}
-            <div className={`lg:col-span-4 ${isEven ? 'lg:order-3' : 'lg:order-1'} hidden lg:block`}>
-                <div className={`h-full bg-${service.color}/10 relative overflow-hidden`}>
+            <div
+                className={`lg:col-span-4 ${isEven ? 'lg:order-3' : 'lg:order-1'} hidden lg:block`}
+            >
+                <div
+                    className={`h-full bg-${service.color}/10 relative overflow-hidden`}
+                >
                     <div className={`absolute inset-0 bg-${service.color}/5`} />
                     {/* Geometric pattern */}
                     <div className="absolute inset-0 flex items-center justify-center">
                         {service.shape === 'circle' && (
-                            <div className={`w-48 h-48 rounded-full bg-${service.color}/20 group-hover:scale-110 transition-transform duration-500`} />
+                            <div
+                                className={`w-48 h-48 rounded-full bg-${service.color}/20 group-hover:scale-110 transition-transform duration-500`}
+                            />
                         )}
                         {service.shape === 'square' && (
-                            <div className={`w-48 h-48 bg-${service.color}/20 rotate-45 group-hover:rotate-[60deg] transition-transform duration-500`} />
+                            <div
+                                className={`w-48 h-48 bg-${service.color}/20 rotate-45 group-hover:rotate-[60deg] transition-transform duration-500`}
+                            />
                         )}
                         {service.shape === 'triangle' && (
                             <div className="w-0 h-0 border-l-[96px] border-r-[96px] border-b-[166px] border-l-transparent border-r-transparent border-b-mahaus-yellow/20 group-hover:scale-110 transition-transform duration-500" />
@@ -468,7 +545,10 @@ const values = [
 
 function ValuesSection() {
     return (
-        <section className="relative py-32 bg-mahaus-cream overflow-hidden">
+        <section
+            data-section="values"
+            className="relative py-32 bg-mahaus-cream overflow-hidden"
+        >
             {/* Background geometric elements */}
             <div className="absolute top-20 left-20 w-64 h-64 border-2 border-mahaus-navy/10 rounded-full" />
             <div className="absolute bottom-20 right-20 w-48 h-48 bg-mahaus-navy/5 rotate-45" />
@@ -512,22 +592,28 @@ const processSteps = [
 
 function ProcessSection() {
     return (
-        <section id="process" className="relative py-32 bg-mahaus-navy scroll-mt-20">
+        <section
+            id="process"
+            data-section="process"
+            className="relative py-32 bg-mahaus-navy scroll-mt-20"
+        >
             <div className="max-w-7xl mx-auto px-6 lg:px-8">
                 <div className="grid lg:grid-cols-2 gap-16">
                     {/* Left - Title */}
                     <div className="lg:sticky lg:top-32 lg:h-fit">
                         <div className="flex items-center gap-4 mb-6">
                             <div className="w-16 h-1 bg-mahaus-yellow" />
-                            <span className="text-mahaus-cream/40 uppercase tracking-widest text-sm">Process</span>
+                            <span className="text-mahaus-cream/40 uppercase tracking-widest text-sm">
+                                Process
+                            </span>
                         </div>
                         <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-mahaus-cream mb-6">
                             How We{' '}
                             <span className="text-mahaus-yellow">Work</span>
                         </h2>
                         <p className="text-mahaus-gray text-lg max-w-md">
-                            A proven methodology that transforms brand potential into measurable results,
-                            step by step.
+                            A proven methodology that transforms brand potential
+                            into measurable results, step by step.
                         </p>
                     </div>
 
@@ -565,7 +651,11 @@ function ProcessSection() {
 
 function ContactSection() {
     return (
-        <section id="contact" className="relative py-32 overflow-hidden scroll-mt-20">
+        <section
+            id="contact"
+            data-section="contact"
+            className="relative py-32 overflow-hidden scroll-mt-20"
+        >
             {/* Background - Geometric composition */}
             <div className="absolute inset-0">
                 <div className="absolute inset-0 bg-mahaus-red" />
@@ -583,8 +673,9 @@ function ContactSection() {
                             Something?
                         </h2>
                         <p className="text-mahaus-gray text-lg mb-8">
-                            Let&apos;s discuss how we can transform your brand into a movement.
-                            We&apos;re selective about our partnerships because your success is our reputation.
+                            Let&apos;s discuss how we can transform your brand
+                            into a movement. We&apos;re selective about our
+                            partnerships because your success is our reputation.
                         </p>
 
                         <div className="flex flex-col sm:flex-row gap-4">
@@ -593,16 +684,16 @@ function ContactSection() {
                                 className="bg-mahaus-yellow text-mahaus-navy hover:bg-mahaus-cream px-8 h-14 text-base font-bold"
                                 asChild
                             >
-                                <a href="mailto:hello@mahaus.co">
+                                <a href={`mailto:${CONTACT_EMAIL}`}>
                                     <Mail className="mr-2 w-5 h-5" />
-                                    hello@mahaus.co
+                                    {CONTACT_EMAIL}
                                 </a>
                             </Button>
                         </div>
 
                         <div className="mt-12 pt-8 border-t border-mahaus-cream/10">
                             <p className="text-mahaus-cream/40 text-sm uppercase tracking-widest">
-                                Based in Bogota, Colombia — Working Globally
+                                Based in {LOCATION} — Working Globally
                             </p>
                         </div>
                     </div>
@@ -617,12 +708,14 @@ function Footer() {
         <footer className="py-8 bg-mahaus-navy border-t border-mahaus-cream/10">
             <div className="max-w-7xl mx-auto px-6 lg:px-8">
                 <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-                    <div className="flex items-center gap-3">
-                        <div className="flex gap-1">
-                            <div className="w-2 h-2 bg-mahaus-red rounded-full" />
-                            <div className="w-2 h-2 bg-mahaus-yellow rounded-full" />
-                            <div className="w-2 h-2 bg-mahaus-blue rounded-full" />
-                        </div>
+                    <div className="flex items-center gap-6">
+                        <a href="/" className="group flex items-center gap-3">
+                            <img
+                                src={logoForDarkBg}
+                                alt="MAHAUS"
+                                className="h-8 w-auto opacity-80 group-hover:opacity-100 transition-opacity"
+                            />
+                        </a>
                         <span className="text-mahaus-cream/40 text-sm">
                             &copy; {new Date().getFullYear()} MAHAUS
                         </span>
@@ -630,7 +723,7 @@ function Footer() {
 
                     <div className="flex items-center gap-6">
                         <a
-                            href="https://instagram.com/mahaus"
+                            href={SOCIAL_LINKS.instagram}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-mahaus-cream/40 hover:text-mahaus-cream transition-colors text-sm uppercase tracking-widest"
@@ -638,7 +731,7 @@ function Footer() {
                             Instagram
                         </a>
                         <a
-                            href="https://linkedin.com/company/mahaus"
+                            href={SOCIAL_LINKS.linkedin}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-mahaus-cream/40 hover:text-mahaus-cream transition-colors text-sm uppercase tracking-widest"

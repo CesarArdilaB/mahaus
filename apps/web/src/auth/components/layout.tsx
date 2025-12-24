@@ -9,7 +9,6 @@ import {
 } from '@shared/components/ui'
 import { type FormEvent, type ReactNode, useCallback } from 'react'
 import { Link } from 'react-router'
-import background from '@/assets/background.jpg'
 import google from '@/assets/google.svg'
 import logo from '@/assets/icon.png'
 import { loginWithGoogle } from '@/auth/utils'
@@ -17,12 +16,7 @@ import { useCallbackURL } from '../hooks'
 
 export function AuthScreen(props: { children: ReactNode }) {
     return (
-        <div className="size-full overflow-auto flex items-center justify-center sm:p-4 relative">
-            <img
-                className="absolute inset-0 w-full h-full object-cover"
-                src={background}
-                alt="Background"
-            />
+        <div className="size-full overflow-auto flex items-center justify-center sm:p-4 relative bg-mahaus-navy">
             <div className="relative z-10 w-full sm:max-w-md overflow-auto max-h-full">
                 {props.children}
             </div>
