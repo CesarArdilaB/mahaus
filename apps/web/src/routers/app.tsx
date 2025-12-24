@@ -13,11 +13,11 @@ export const appRoute: RouteObject = {
     ),
     children: [
         {
-            path: '/',
+            path: '/dashboard',
             element: <HomeScreen />,
         },
         {
-            path: '/zzz',
+            path: '/dashboard/*',
             element: <HomeScreen />,
         },
     ],

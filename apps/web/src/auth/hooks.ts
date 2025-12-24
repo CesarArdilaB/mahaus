@@ -80,5 +80,5 @@ export function useCallbackURL() {
     const [params] = useSearchParams()
 
     const redirect = params.get('redirect') || undefined
-    return new URL(redirect || '/', window.location.href)
+    return new URL(redirect || '/dashboard', window.location.href)
 }
