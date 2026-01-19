@@ -4,8 +4,8 @@ export const CONTACT_EMAIL = 'm@mahaus.agency'
 export const LOCATION = 'Colombia'
 
 export const SOCIAL_LINKS = {
-    instagram: 'https://instagram.com/mariajose_smm',
-    linkedin: 'https://linkedin.com/in/mariajose-smm',
+    instagram: 'https://www.instagram.com/majoo.mondragon/',
+    linkedin: 'https://www.linkedin.com/in/maria-mondragon/',
     canva: 'https://mariajose-socialmediamanager.my.canva.site',
 } as const
 
