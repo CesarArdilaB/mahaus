@@ -225,7 +225,7 @@ function HeroSection() {
                         <div className="space-y-1">
                             <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold text-mahaus-cream leading-[0.95]">
                                 Hi, I'm{' '}
-                                <span className="text-mahaus-yellow">Majo</span>
+                                <span className="text-mahaus-yellow">Maria</span>
                             </h1>
                             <p className="text-xl sm:text-2xl lg:text-3xl text-mahaus-cream/70 font-light">
                                 I help brands{' '}

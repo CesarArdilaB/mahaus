@@ -10,7 +10,7 @@ export const publicRoute: RouteObject = {
             element: <LandingPage />,
         },
         {
-            path: '/majo',
+            path: '/maria',
             element: <MajoPage />,
         },
     ],
