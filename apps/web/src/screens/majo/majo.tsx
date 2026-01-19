@@ -15,6 +15,7 @@ import {
     SOCIAL_LINKS,
     portfolioItems,
     services,
+    contactBg,
 } from './constants'
 
 // Sections that have light backgrounds (cream)
@@ -249,18 +250,69 @@ function HeroSection() {
                         </div>
                     </div>
 
-                    <div className="lg:col-span-4 relative h-[400px] hidden lg:flex items-center justify-center">
+                    <div className="lg:col-span-4 relative h-[500px] hidden lg:flex items-center justify-center">
                         <div
-                            className="relative w-full max-w-sm transition-transform duration-300 ease-out"
+                            className="relative w-full max-w-md transition-transform duration-300 ease-out"
                             style={{
-                                transform: `translate(${mousePos.x * 0.5}px, ${mousePos.y * 0.5}px)`,
+                                transform: `translate(${mousePos.x * 0.3}px, ${mousePos.y * 0.3}px)`,
                             }}
                         >
-                            {/* Decorative geometric composition */}
+                            {/* Bauhaus-style geometric frame composition */}
                             <div className="relative">
-                                <div className="w-64 h-64 bg-mahaus-yellow/20 rounded-full absolute -top-8 -left-8" />
-                                <div className="w-48 h-48 bg-mahaus-red/30 absolute top-16 left-16" />
-                                <div className="w-32 h-32 border-4 border-mahaus-blue/40 rounded-full absolute top-8 left-32" />
+                                {/* Background geometric shapes */}
+                                <div
+                                    className="absolute -top-6 -left-6 w-72 h-72 bg-mahaus-yellow/40 rounded-full"
+                                    style={{
+                                        transform: `translate(${mousePos.x * -0.2}px, ${mousePos.y * -0.2}px)`,
+                                    }}
+                                />
+                                <div
+                                    className="absolute -bottom-4 -right-4 w-48 h-48 bg-mahaus-red/50"
+                                    style={{
+                                        transform: `translate(${mousePos.x * 0.4}px, ${mousePos.y * 0.4}px)`,
+                                    }}
+                                />
+                                <div
+                                    className="absolute top-1/2 -right-8 w-24 h-24 border-4 border-mahaus-blue rounded-full"
+                                    style={{
+                                        transform: `translate(${mousePos.x * 0.6}px, ${mousePos.y * 0.6}px)`,
+                                    }}
+                                />
+
+                                {/* Main portrait container with geometric clipping */}
+                                <div className="relative z-10">
+                                    {/* Yellow accent bar */}
+                                    <div className="absolute -left-4 top-8 w-2 h-32 bg-mahaus-yellow" />
+
+                                    {/* Portrait with border frame */}
+                                    <div className="relative overflow-hidden border-4 border-mahaus-cream/20">
+                                        <img
+                                            src={contactBg}
+                                            alt="Maria Jose"
+                                            className="w-80 h-96 object-cover object-top"
+                                        />
+                                        {/* Color overlay accents */}
+                                        <div className="absolute inset-0 bg-gradient-to-br from-mahaus-blue/10 via-transparent to-mahaus-red/10" />
+                                    </div>
+
+                                    {/* Bottom decorative elements */}
+                                    <div className="absolute -bottom-3 left-4 flex gap-2">
+                                        <div className="w-6 h-6 bg-mahaus-red" />
+                                        <div className="w-6 h-6 bg-mahaus-yellow rounded-full" />
+                                        <div className="w-6 h-6 bg-mahaus-blue" />
+                                    </div>
+
+                                    {/* Blue accent line */}
+                                    <div className="absolute -right-3 bottom-16 w-16 h-1 bg-mahaus-blue" />
+                                </div>
+
+                                {/* Floating accent square */}
+                                <div
+                                    className="absolute -top-4 right-8 w-12 h-12 border-2 border-mahaus-yellow rotate-12"
+                                    style={{
+                                        transform: `rotate(12deg) translate(${mousePos.x * 0.5}px, ${mousePos.y * 0.5}px)`,
+                                    }}
+                                />
                             </div>
                         </div>
                     </div>
