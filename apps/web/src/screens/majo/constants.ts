@@ -61,9 +61,10 @@ export const portfolioItems = [
         id: '02',
         title: 'Upsiders',
         description:
-            'Managed Instagram, LinkedIn, Facebook, TikTok, and YouTube communities, ensuring daily engagement through story updates, DM responses, and comment interactions.',
-        results: 'Cross-platform presence and community management excellence',
-        categories: ['Social Media Management', 'Community Engagement'],
+            'Full social media and community management across Instagram, LinkedIn, Facebook, TikTok, and YouTube. Built and nurtured a global community focused on mindset growth, professional development, and networking.',
+        results:
+            '+3,676 reactions • 1,686 comments • 336 posts managed • 108 peak daily active members',
+        categories: ['Social Media', 'Community', 'Content Strategy'],
         color: 'mahaus-blue',
         logo: upsidersLogo,
         images: [upsiders1, upsiders2],
@@ -71,19 +72,6 @@ export const portfolioItems = [
     },
     {
         id: '03',
-        title: 'Upsiders Community',
-        description:
-            'Managed a global community focused on mindset growth, professional development, and networking.',
-        results:
-            '+3,676 reactions and 1,686 comments in 4 months; approved 22 new members; managed 336 posts; peaked at 108 active members daily',
-        categories: ['Community Management', 'Engagement Strategy'],
-        color: 'mahaus-yellow',
-        logo: upsidersLogo,
-        images: [upsiders1, upsiders2],
-        videos: [],
-    },
-    {
-        id: '04',
         title: 'NEARSOL',
         description:
             'Designed and managed multi-format content for Instagram, Facebook, TikTok, LinkedIn, and Google My Business. Developed graphic materials and implemented digital branding strategies.',
@@ -95,7 +83,7 @@ export const portfolioItems = [
         videos: [video3],
     },
     {
-        id: '05',
+        id: '04',
         title: 'Exotérmica',
         description:
             'Led visual conceptualization for musical launches, crafting graphics and branding. Developed and executed creative digital campaigns and supported event branding.',
@@ -112,7 +100,7 @@ export const portfolioItems = [
         videos: [],
     },
     {
-        id: '06',
+        id: '05',
         title: 'CXPERTS',
         description:
             'Managed Mexico and LATAM accounts for Instagram, TikTok, and YouTube. Developed sales campaign focused on client acquisition. Handled complete content creation including video, photography, and graphic design.',
